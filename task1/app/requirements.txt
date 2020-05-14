@@ -1,0 +1,6 @@
+Flask
+mysql-connector
+flask-sqlalchemy
+marshmallow-sqlalchemy
+pymysql
+uwsgi
