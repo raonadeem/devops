@@ -1,0 +1,20 @@
+---
+#System Settings
+php_modules: [ 'php-curl', 'php-gd', 'php-mbstring', 'php-xml', 'php-xmlrpc', 'php-soap', 'php-intl', 'php-zip' ]
+
+#MySQL Settings
+mysql_root_password: "mysql_root_password"
+mysql_db: "wordpress"
+mysql_user: "remote_access"
+mysql_password: "password"
+
+#HTTP Settings
+http_host: "example.com"
+http_conf: "example.conf"
+http_port: "80"
+nginx_port: "9999"
+nginx_http_host: "app.com"
+
+#Package installations
+nodeVersion: "node_8.x"
+nodeDistro: "bionic"
