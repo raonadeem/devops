@@ -1,0 +1,4 @@
+ARG PHP_VERSION=""
+FROM php:7.1-fpm
+
+RUN docker-php-ext-install mysqli

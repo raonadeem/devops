@@ -1,0 +1,61 @@
+version: "3.2"
+services:
+  php:
+    build: 
+      context: './php/'
+      args:
+       PHP_VERSION: ${PHP_VERSION}
+    networks:
+      - backend
+    volumes:
+      - wproot/:/var/www/html/
+    container_name: php
+  apache:
+    build:
+      context: './apache/'
+      args:
+       APACHE_VERSION: ${APACHE_VERSION}
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - frontend
+      - backend
+    volumes:
+      - apconf/:/usr/local/apache2/conf/
+      - wproot/:/var/www/html/
+    container_name: apache
+  nginx:
+    image: nginx:alpine
+    depends_on:
+      - apache
+    networks:
+      - frontend
+    ports:
+      - "80:80"
+    volumes:
+      - wproot/:/var/www/html
+      - nginxconf/:/etc/nginx/
+    container_name: nginx
+  mysql:
+    image: mysql:${MYSQL_VERSION:-latest}
+    restart: always
+    volumes:
+            - data:/var/lib/mysql
+    networks:
+      - backend
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+    container_name: mysql
+networks:
+  frontend:
+  backend:
+volumes:  #############  Create these persistent volumes and copy respective data before running docker-compose.yml  ##########
+    data: # mysql persistent data
+    wproot:  # download and extract the wordpress package
+    ngroot:  # copy ngroot directory data into this mount point
+    nginxconf:  # copy nginxconf directory data into this mount point
+    apconf:  # copy apconf directory data into this mount point
